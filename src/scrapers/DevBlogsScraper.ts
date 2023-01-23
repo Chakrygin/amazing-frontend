@@ -62,7 +62,7 @@ export default class DevBlogsScraper implements Scraper {
         date: moment(date, 'LL'),
         links: [
           {
-            title: 'Read',
+            title: 'Read more',
             href: href,
           },
         ],

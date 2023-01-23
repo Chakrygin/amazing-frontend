@@ -83,7 +83,7 @@ export default class HabrScraper implements Scraper {
         description,
         links: [
           {
-            title: 'Читать',
+            title: 'Читать дальше',
             href: href,
           }
         ],

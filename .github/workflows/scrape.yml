@@ -16,7 +16,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Scrape
+      - id: scrape
+        name: Scrape
         uses: ./
         with:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
@@ -29,4 +30,4 @@ jobs:
         if: ${{ always() && github.ref == 'refs/heads/main' }}
         with:
           add: data
-          message: ${{ steps.Scrape.outputs.COMMIT_MESSAGE }}
+          message: ${{ steps.scrape.outputs.COMMIT_MESSAGE }}

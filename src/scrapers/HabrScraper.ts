@@ -7,19 +7,16 @@ import axios from 'axios';
 import * as cheerio from 'cheerio';
 import moment from 'moment';
 
+const MIN_RATING = 20;
+
 const Hubs = {
   'javascript': 'JavaScript',
   'typescript': 'TypeScript',
 };
 
-export interface HabrScraperOptions {
-  readonly minRating: number;
-}
-
 export default class HabrScraper implements Scraper {
   constructor(
-    private readonly id: keyof typeof Hubs,
-    private readonly options: HabrScraperOptions) { }
+    private readonly id: keyof typeof Hubs) { }
 
   readonly name = `Habr / ${Hubs[this.id]}`;
   readonly path = 'habr.com';
@@ -58,7 +55,7 @@ export default class HabrScraper implements Scraper {
         throw new Error('Failed to parse post. Rating is NaN.');
       }
 
-      if (rating < this.options.minRating) {
+      if (rating < MIN_RATING) {
         core.info('Post rating is too low. Continue scraping.');
         continue;
       }

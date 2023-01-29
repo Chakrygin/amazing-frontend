@@ -8,5 +8,5 @@
     - Microsoft Developer Blogs:
         - TypeScript - https://devblogs.microsoft.com/typescript/
     - Хабр (статьи с рейтингом 20 и выше):
-        - https://habr.com/ru/hub/javascript/
-        - https://habr.com/ru/hub/typescript/
+        - JavaScript - https://habr.com/ru/hub/javascript/
+        - TypeScript - https://habr.com/ru/hub/typescript/

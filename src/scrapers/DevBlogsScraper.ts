@@ -1,11 +1,11 @@
 import * as core from '@actions/core';
 
-import { Scraper } from 'core/scrapers';
-import { Post, Link } from 'core/posts';
-
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 import moment from 'moment';
+
+import { Scraper } from 'core/scrapers';
+import { Post, Link } from 'core/posts';
 
 const Blogs = {
   'typescript': 'TypeScript',
@@ -18,7 +18,7 @@ export default class DevBlogsScraper implements Scraper {
   readonly name = `DevBlogs / ${Blogs[this.id]}`;
   readonly path = `devblogs.microsoft.com/${this.id}`;
 
-  private readonly devblogs: Link = {
+  private readonly blogs: Link = {
     title: 'DevBlogs',
     href: 'https://devblogs.microsoft.com',
   };
@@ -50,13 +50,17 @@ export default class DevBlogsScraper implements Scraper {
       const title = link.text();
       const href = link.attr('href') ?? '';
       const date = entry.find('.entry-post-date').text();
+      const tags = entry
+        .find('.post-categories-tags a')
+        .map((_, element) => $(element).text())
+        .toArray();
 
-      const post: Post = {
+      let post: Post = {
         image,
         title,
         href,
         categories: [
-          this.devblogs,
+          this.blogs,
           this.blog,
         ],
         date: moment(date, 'LL'),
@@ -66,9 +70,12 @@ export default class DevBlogsScraper implements Scraper {
             href: href,
           },
         ],
+        tags,
       };
 
-      yield await this.enrichPost(post);
+      post = await this.enrichPost(post);
+
+      yield post;
     }
   }
 

@@ -1,11 +1,11 @@
 import * as core from '@actions/core';
 
-import { Scraper, ScraperBehaviour } from 'core/scrapers';
-import { Post, Link } from 'core/posts';
-
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 import moment from 'moment';
+
+import { Scraper, ScraperBehaviour } from 'core/scrapers';
+import { Post, Link } from 'core/posts';
 
 const MIN_RATING = 20;
 

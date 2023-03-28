@@ -1,0 +1,12 @@
+{
+  "Habr / JavaScript": {
+    "timestamp": "2023-03-28T12:51:44.485Z",
+    "message": "Post is not valid: title is empty, href is empty, link href at index 0 is empty.",
+    "counter": 1
+  },
+  "Habr / TypeScript": {
+    "timestamp": "2023-03-28T12:51:46.402Z",
+    "message": "Post is not valid: title is empty, href is empty, link href at index 0 is empty.",
+    "counter": 1
+  }
+}

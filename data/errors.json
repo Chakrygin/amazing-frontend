@@ -1,0 +1,12 @@
+{
+  "Habr / JavaScript": {
+    "timestamp": "2024-05-13T14:30:19.903Z",
+    "message": "Request failed with status code 500",
+    "counter": 1
+  },
+  "Habr / TypeScript": {
+    "timestamp": "2024-05-13T14:30:21.575Z",
+    "message": "Request failed with status code 500",
+    "counter": 1
+  }
+}

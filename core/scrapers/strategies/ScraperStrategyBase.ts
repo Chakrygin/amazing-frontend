@@ -6,11 +6,7 @@ import { Sender } from '@core/senders';
 import { Storage } from '@core/storages/Storage';
 
 export abstract class ScraperStrategyBase implements ScraperStrategy {
-  constructor(
-    protected readonly fetchPosts: () => AsyncGenerator<Post>,
-    protected readonly enrichPost: (post: Post) => Post) { }
-
-  protected abstract scrape(storage: Storage, sender: Sender): Promise<void>;
+  abstract scrape(storage: Storage, sender: Sender): Promise<void>;
 
   protected printPostHead(post: Post) {
     core.info(`Post title: ${post.title}`);

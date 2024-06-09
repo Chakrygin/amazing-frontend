@@ -1,7 +1,5 @@
-import * as core from '@actions/core'
+import { App } from "@core/App";
 
-export function main() {
-  core.info('Hello, GitHub Action!');
-}
+const app = new App();
 
-void main();
+void app.run();

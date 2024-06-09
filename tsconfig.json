@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "strict": true,
@@ -7,6 +8,9 @@
     "paths": {
       "@core/*": [
         "./core/*"
+      ],
+      "@src/*": [
+        "./src/*"
       ]
     }
   }

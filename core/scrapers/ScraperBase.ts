@@ -4,6 +4,9 @@ import { Sender } from '@core/senders';
 import { Post } from '@core/models';
 import { ScraperStrategy, ScraperStrategyWithBreakIfPostExists, ScraperStrategyWithContinueIfPostExists } from './strategies';
 import { HabrScraperBase } from './shared';
+import { HtmlPageHelper, RssFeedHelper } from './helpers';
+
+import RssParser from 'rss-parser';
 
 export abstract class ScraperBase implements Scraper {
   abstract name: string;
@@ -38,5 +41,13 @@ export abstract class ScraperBase implements Scraper {
     const fetchPosts = this.fetchPosts.bind(this);
     const enrichPost = this.enrichPost.bind(this);
     return new ScraperStrategyWithContinueIfPostExists(fetchPosts, enrichPost);
+  }
+
+  protected fromHtmlPage(url: string): HtmlPageHelper {
+    return new HtmlPageHelper(url);
+  }
+
+  protected fromRssFeed<TFeed, TItem>(url: string, options: RssParser.ParserOptions<TFeed, TItem> = {}): RssFeedHelper<TFeed, TItem> {
+    return new RssFeedHelper<TFeed, TItem>(url, options);
   }
 }

@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-export function getKnownHosts(path: string): string[] {
+export function getKnownHosts(path: string): readonly string[] {
   if (fs.existsSync(path)) {
     const knownHosts = fs
       .readdirSync(path, { withFileTypes: true })

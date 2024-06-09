@@ -1,3 +1,5 @@
-export interface Sender {
+import { Post } from '../models';
 
+export interface Sender {
+  send(post: Post): Promise<void>;
 }

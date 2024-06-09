@@ -20,8 +20,8 @@ export default tslint.config(
       },
     },
     rules: {
-      'quotes': 'off',
-      '@typescript-eslint/quotes': ['error', 'single'],
+      // 'quotes': 'off',
+      // '@typescript-eslint/quotes': ['error', 'single'],
     }
   }
 );

@@ -1,3 +1,4 @@
 export interface Storage {
-  readonly path: string;
+  has(href: string): boolean;
+  add(href: string): void;
 }

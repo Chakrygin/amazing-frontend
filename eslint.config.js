@@ -20,32 +20,9 @@ export default tslint.config(
       },
     },
     rules: {
-      // 'quotes': 'off',
-      // '@typescript-eslint/quotes': ['error', 'single'],
-
       // ESLint Stylistic
       '@stylistic/quotes': ['error', 'single'],
       '@stylistic/semi': ['error', 'always'],
-      // '': ['error', ''],
-      // '': ['error', ''],
-      // '': ['error', ''],
-      // '': ['error', ''],
-      // '': ['error', ''],
-      // '': ['error', ''],
-      // '': ['error', ''],
-      // '': ['error', ''],
-      // '': ['error', ''],
-      // '': ['error', ''],
-      // '': ['error', ''],
-      // '': ['error', ''],
-      // '': ['error', ''],
-      // '': ['error', ''],
-      // '': ['error', ''],
-      // '': ['error', ''],
-      // '': ['error', ''],
-      // '': ['error', ''],
-      // '': ['error', ''],
-      // '': ['error', ''],
     }
   }
 );

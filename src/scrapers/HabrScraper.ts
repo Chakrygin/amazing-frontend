@@ -1,5 +1,12 @@
 import { HabrScraperBase } from "@core/scrapers/shared";
 
-export class HabrScraper extends HabrScraperBase {
+const hubs = {
+  'javascript': 'JavaScript',
+  'typescript': 'TypeScript',
+};
 
+export class HabrScraper extends HabrScraperBase {
+  constructor(id: keyof typeof hubs) {
+    super(id, hubs[id]);
+  }
 }

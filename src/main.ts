@@ -4,8 +4,9 @@ import { DevBlogsScraper } from './scrapers/DevBlogsScraper';
 import { HabrScraper } from './scrapers/HabrScraper';
 
 const app = new App(() => [
-  new DevBlogsScraper(),
-  new HabrScraper()
+  new DevBlogsScraper('typescript'),
+  new HabrScraper('javascript'),
+  new HabrScraper('typescript'),
 ]);
 
 void app.run();

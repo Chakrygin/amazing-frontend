@@ -9,6 +9,10 @@ export async function testScraper(createScraper: (knownHosts: readonly string[])
   const knownHosts = getKnownHosts(
     path.join(process.cwd(), 'data'));
   const scraper = createScraper(knownHosts);
+  const sender = createSender(TELEGRAM_TOKEN, TELEGRAM_CHAT_ID);
+  const storage = new PostStorage(
+    path.join(process.cwd(), 'data', 'tmp'),
+    getPostId);
 
-  await scraper.scrape();
+  await scraper.scrape(sender, storage);
 }

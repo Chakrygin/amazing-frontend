@@ -1,4 +1,4 @@
-import { HabrScraperBase } from "@core/scrapers/shared";
+import { HabrScraperBase } from '@core/scrapers/shared';
 
 const hubs = {
   'javascript': 'JavaScript',

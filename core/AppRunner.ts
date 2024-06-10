@@ -94,7 +94,7 @@ export class AppRunner {
         finally {
           if (storage.save()) {
             this.lastUpdates.set(scraper.name);
-           //updatedScraperNames.push(scraper.name);
+            //updatedScraperNames.push(scraper.name);
           }
         }
       });

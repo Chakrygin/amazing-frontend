@@ -1,59 +1,66 @@
 import fs from 'fs';
 
+import { getHrefId } from './utils';
+
 export class PostStorageFile {
   constructor(
-    private readonly path: string,
-    private readonly getValueId: (value: string) => string) { }
+    private readonly path: string) { }
 
-  private values?: Map<string, string>;
+  private hrefs?: Map<string, string>;
   private dirty?: true;
 
   get size() {
-    const values = this.getValues();
-    return values.size;
+    const hrefs = this.getHrefs();
+    return hrefs.size;
   }
 
-  has(value: string): boolean {
-    const values = this.getValues();
-    const valueId = this.getValueId(value);
-    return values.has(valueId);
+  has(href: string): boolean {
+    const hrefs = this.getHrefs();
+    const hrefId = getHrefId(href);
+    return hrefs.has(hrefId);
   }
 
-  add(value: string): void {
-    const values = this.getValues();
-    const valueId = this.getValueId(value);
-    values.set(valueId, value);
+  add(href: string): void {
+    const hrefs = this.getHrefs();
+    const hrefId = getHrefId(href);
+    hrefs.set(hrefId, href);
     this.dirty = true;
   }
 
-  private getValues(): NonNullable<typeof this.values> {
-    if (!this.values) {
-      this.values = new Map();
+  private getHrefs(): NonNullable<typeof this.hrefs> {
+    if (!this.hrefs) {
+      this.hrefs = new Map();
 
       if (fs.existsSync(this.path)) {
-        const data = fs.readFileSync(this.path).toString();
-        const values = data.split('\n')
-          .map(value => value.trim())
-          .filter(value => !!value);
+        const data = fs
+          .readFileSync(this.path)
+          .toString();
 
-        for (const value of values) {
-          const id = this.getValueId(value);
-          this.values.set(id, value);
+        const hrefs = data.split('\n')
+          .map(href => href.trim())
+          .filter(href => !!href);
+
+        for (const href of hrefs) {
+          const hrefId = getHrefId(href);
+          this.hrefs.set(hrefId, href);
         }
       }
     }
 
-    return this.values;
+    return this.hrefs;
   }
 
   save(): boolean {
     let dirty = false;
 
-    if (this.values && this.dirty) {
-      const data = Array.from(this.values.values()).sort().join('\n');
+    if (this.hrefs && this.dirty) {
+      const data = Array.from(this.hrefs.values())
+        .sort()
+        .join('\n');
+
       fs.writeFileSync(this.path, data + '\n');
 
-      delete this.values;
+      delete this.hrefs;
       delete this.dirty;
 
       dirty = true;

@@ -2,9 +2,7 @@ import fs from 'fs';
 import moment from 'moment';
 import path from 'path';
 
-export interface LastUpdateInfo {
-  readonly timestamp: moment.Moment;
-}
+import { LastUpdateInfo } from './LastUpdateInfo';
 
 export class LastUpdateStorage {
   constructor(
@@ -62,7 +60,7 @@ export class LastUpdateStorage {
           });
         }
 
-        const entries = [...this.lastUpdates]
+        const entries = Array.from(this.lastUpdates)
           .map(([name, item]) => [name, {
             timestamp: item.timestamp.toISOString(),
           }])

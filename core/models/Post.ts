@@ -10,6 +10,6 @@ export interface Post {
   readonly author?: string;
   readonly date?: moment.Moment;
   readonly description?: string[];
-  readonly links: Link[];
+  readonly links?: Link[];
   readonly tags?: string[];
 }

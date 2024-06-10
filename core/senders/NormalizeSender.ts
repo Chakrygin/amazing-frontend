@@ -1,5 +1,5 @@
 import { Sender } from './Sender';
-import { Post } from '../models';
+import { Link, Post } from '../models';
 
 export class NormalizeSender implements Sender {
   constructor(

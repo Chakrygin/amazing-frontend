@@ -1,11 +1,11 @@
-import * as core from '@actions/core'
-import * as github from '@actions/github'
+import * as core from '@actions/core';
+import * as github from '@actions/github';
 
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
+import moment from 'moment';
 import path from 'path';
 
-import moment from 'moment';
 import 'moment/locale/ru.js';
 
 import { AppConfig } from './AppConfig';
@@ -20,6 +20,7 @@ export class App {
 
   async run(): Promise<void> {
     try {
+
       // Setup default axios retries.
       axiosRetry(axios, {
         retryDelay: retryNumber => axiosRetry.exponentialDelay(retryNumber),

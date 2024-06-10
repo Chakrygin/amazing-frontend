@@ -1,5 +1,6 @@
 import * as core from '@actions/core';
 
+// import moment from 'moment';
 import path from 'path';
 
 import { AppConfig } from './AppConfig';
@@ -8,7 +9,7 @@ import { Scraper } from './scrapers';
 import { Sender } from './senders';
 import { LastErrorStorage, LastUpdateStorage } from './storages';
 import { PostStorage } from './storages/PostStorage';
-import moment from 'moment';
+
 
 export class AppRunner {
   constructor(
@@ -29,49 +30,48 @@ export class AppRunner {
         const lastError = this.lastErrors.get(scraper.name);
         const lastUpdate = this.lastUpdates.get(scraper.name);
 
-        if (lastError) {
-          if (!this.config.manual) {
-            if (lastError.counter > 10) {
-              core.error('This scraper failed more than 10 times.', {
-                title: `The '${scraper.name}' scraper permanently disabled.`,
-              });
+        // if (lastError) {
+        //   if (!this.config.manual) {
+        //     if (lastError.counter > 10) {
+        //       core.error('This scraper failed more than 10 times.', {
+        //         title: `The '${scraper.name}' scraper permanently disabled.`,
+        //       });
 
-              return;
-            }
+        //       return;
+        //     }
 
-            if (lastError.counter > 1) {
-              if (moment().diff(lastError.timestamp, 'days') < 1) {
-                core.warning('This scraper failed less than a day ago.', {
-                  title: `The '${scraper.name}' scraper temporarily disabled.`,
-                });
+        //     if (lastError.counter > 1) {
+        //       if (moment().diff(lastError.timestamp, 'days') < 1) {
+        //         core.warning('This scraper failed less than a day ago.', {
+        //           title: `The '${scraper.name}' scraper temporarily disabled.`,
+        //         });
 
-                return;
-              }
-            }
-          }
+        //         return;
+        //       }
+        //     }
+        //   }
 
-          this.lastErrors.reset(scraper.name);
-        }
+        //   this.lastErrors.reset(scraper.name);
+        // }
 
-        if (lastUpdate) {
-          if (!this.config.manual) {
-            if (moment().diff(lastUpdate.timestamp, 'year') >= 1) {
-              core.warning('This scraper has no updates more than 1 year.', {
-                title: `The '${scraper.name}' scraper is idle.`,
-              });
-            }
-          }
-        }
+        // if (lastUpdate) {
+        //   if (!this.config.manual) {
+        //     if (moment().diff(lastUpdate.timestamp, 'year') >= 1) {
+        //       core.warning('This scraper has no updates more than 1 year.', {
+        //         title: `The '${scraper.name}' scraper is idle.`,
+        //       });
+        //     }
+        //   }
+        // }
 
         const storage = new PostStorage(
           path.join(this.config.path, scraper.path));
 
         try {
-
           const debug = this.config.debug || !lastUpdate || !storage.exists;
           const sender = !debug ? this.publicSender : this.privateSender;
 
-          await scraper.scrape();
+          await scraper.scrape(storage, sender);
         }
         catch (error) {
           if (error instanceof Error) {

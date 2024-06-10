@@ -12,7 +12,8 @@ import { AppConfig } from './AppConfig';
 import { AppRunner } from './AppRunner';
 
 import { Scraper } from './scrapers';
-import { createSender, getInput, getKnownHosts } from './utils';
+import { createSender } from './senders';
+import { getInput, getKnownHosts } from './utils';
 
 export class App {
   constructor(

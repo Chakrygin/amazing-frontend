@@ -1,5 +1,5 @@
 import { Sender } from './Sender';
-import { Link, Post } from '../models';
+import { Post } from '../models';
 
 export class NormalizeSender implements Sender {
   constructor(
@@ -19,7 +19,7 @@ export class NormalizeSender implements Sender {
       date: post.date,
       description: post.description,
       links: post.links
-        .map(link => ({
+        ?.map(link => ({
           title: link.title.trim(),
           href: link.href.trim(),
         })),

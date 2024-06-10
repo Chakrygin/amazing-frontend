@@ -13,7 +13,7 @@ export class ValidateSender implements Sender {
         errors.push('image is empty');
       }
       else if (!isValidUrl(post.image)) {
-        errors.push('image is not valid url');
+        errors.push(`image is not valid url: ${post.image}`);
       }
     }
 
@@ -25,7 +25,7 @@ export class ValidateSender implements Sender {
       errors.push('href is empty');
     }
     else if (!isValidUrl(post.href)) {
-      errors.push('href is not valid url');
+      errors.push(`href is not valid url: ${post.href}`);
     }
 
     if (post.categories.length > 0) {
@@ -40,7 +40,7 @@ export class ValidateSender implements Sender {
           errors.push(`category href at index ${index} is empty`);
         }
         else if (!isValidUrl(category.href)) {
-          errors.push(`category href at index ${index} is not valid url`);
+          errors.push(`category href at index ${index} is not valid url: ${category.href}`);
         }
       }
     }
@@ -75,7 +75,7 @@ export class ValidateSender implements Sender {
       }
     }
 
-    if (post.links.length > 0) {
+    if (post.links && post.links.length > 0) {
       for (let index = 0; index < post.links.length; index++) {
         const link = post.links[index];
 
@@ -87,7 +87,7 @@ export class ValidateSender implements Sender {
           errors.push(`link href at index ${index} is empty`);
         }
         else if (!isValidUrl(link.href)) {
-          errors.push(`link href at index ${index} is not valid url`);
+          errors.push(`link href at index ${index} is not valid url: ${link.href}`);
         }
       }
     }

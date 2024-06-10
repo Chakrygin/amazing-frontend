@@ -67,7 +67,7 @@ export class TelegramSender implements Sender {
   private getMessageInternal(post: Post): string {
     const lines: string[] = [];
 
-    lines.push(bold(link(post)));
+    lines.push(bold(post.title));
 
     const line: string[] = [];
 
@@ -93,11 +93,14 @@ export class TelegramSender implements Sender {
       }
     }
 
-    if (post.links.length > 0) {
+    if (post.links && post.links.length > 0) {
       const links = post.links
         .map(link => `${encode(link.title)}: ${link.href}`);
 
       lines.push(...links);
+    }
+    else {
+      lines.push(post.href);
     }
 
     if (post.tags && post.tags.length > 0) {
@@ -112,6 +115,17 @@ export class TelegramSender implements Sender {
   }
 }
 
+function isAnimation(image: string, isLowerCase = false): boolean {
+  let result = image.endsWith('.gif');
+
+  if (!result && !isLowerCase) {
+    image = image.toLowerCase();
+    result = isAnimation(image, true);
+  }
+
+  return result;
+}
+
 function link(link: Link): string {
   return `<a href="${link.href}">${encode(link.title)}</a>`;
 }
@@ -124,15 +138,4 @@ function encode(html: string) {
   return html
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
-}
-
-function isAnimation(image: string, isLowerCase = false): boolean {
-  let result = image.endsWith('.gif');
-
-  if (!result && !isLowerCase) {
-    image = image.toLowerCase();
-    result = isAnimation(image, true);
-  }
-
-  return result;
 }

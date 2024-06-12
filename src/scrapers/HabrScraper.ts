@@ -7,6 +7,8 @@ const hubs = {
 
 export class HabrScraper extends HabrScraperBase {
   constructor(id: keyof typeof hubs) {
-    super(id, hubs[id]);
+    super(id, hubs[id], {
+      minRating: 10,
+    });
   }
 }

@@ -1,9 +1,9 @@
-import { Sender } from "@core/senders";
-import { Storage } from "@core/storages/Storage";
+import { Sender } from '../senders';
+import { Storage } from '../storages';
 
 export interface Scraper {
   readonly name: string;
   readonly path: string;
 
-  scrape(storage: Storage, sender: Sender): Promise<void>;
+  scrape(sender: Sender, storage: Storage): Promise<void>;
 }

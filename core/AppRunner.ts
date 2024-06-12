@@ -71,7 +71,7 @@ export class AppRunner {
           const debug = this.config.debug || !lastUpdate || !storage.exists;
           const sender = !debug ? this.publicSender : this.privateSender;
 
-          await scraper.scrape(storage, sender);
+          await scraper.scrape(sender, storage);
         }
         catch (error) {
           if (error instanceof Error) {

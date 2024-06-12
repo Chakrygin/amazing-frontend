@@ -1,46 +1,51 @@
-import { Storage } from '@core/storages/Storage';
-import { Scraper } from './Scraper';
-import { Sender } from '@core/senders';
-import { Post } from '@core/models';
-import { ScraperStrategy, ScraperStrategyWithBreakIfPostExists, ScraperStrategyWithContinueIfPostExists } from './strategies';
-import { HabrScraperBase } from './shared';
-import { HtmlPageHelper, RssFeedHelper } from './helpers';
-
 import RssParser from 'rss-parser';
+
+import { Scraper } from './Scraper';
+import { ScraperStrategy } from './ScraperStrategy';
+
+import { HtmlPageHelper, RssFeedHelper } from './helpers';
+import { BreakIfPostExistsStrategy, ContinueIfPostExistsStrategy, Strategy } from './strategies';
+
+import { Post } from '../models';
+import { Sender } from '../senders';
+import { Storage } from '../storages';
 
 export abstract class ScraperBase implements Scraper {
   abstract name: string;
   abstract path: string;
 
-  scrape(storage: Storage, sender: Sender): Promise<void> {
-    const strategy = this.createScraperStrategy();
-    return strategy.scrape(storage, sender);
+  async scrape(sender: Sender, storage: Storage): Promise<void> {
+    const strategy = this.createStrategy();
+    await strategy.scrape(sender, storage);
+  }
+
+  protected createStrategy(): Strategy {
+    const fetchPosts = this.fetchPosts.bind(this);
+    const enrichPost = this.enrichPost.bind(this);
+
+    if (hasStrategy(this)) {
+      if (this.strategy === ScraperStrategy.BreakIfPostExists) {
+        return new BreakIfPostExistsStrategy(fetchPosts, enrichPost);
+      }
+      else if (this.strategy === ScraperStrategy.ContinueIfPostExists) {
+        return new ContinueIfPostExistsStrategy(fetchPosts, enrichPost);
+      }
+      else {
+        throw new Error(`Unknown scraper strategy: ${this.strategy as string}`);
+      }
+    }
+
+    return new BreakIfPostExistsStrategy(fetchPosts, enrichPost);
+
+    function hasStrategy(scraper: Scraper): scraper is Scraper & { strategy: ScraperStrategy } {
+      return 'strategy' in scraper && typeof scraper.strategy === 'string';
+    }
   }
 
   protected abstract fetchPosts(): AsyncGenerator<Post>;
 
   protected enrichPost(post: Post): Promise<Post | null> {
     return Promise.resolve(post);
-  }
-
-  protected createScraperStrategy(): ScraperStrategy {
-    if (this instanceof HabrScraperBase) {
-      return this.createScraperStrategyWithContinueIfPostExists();
-    }
-
-    return this.createScraperStrategyWithBreakIfPostExists();
-  }
-
-  protected createScraperStrategyWithBreakIfPostExists(): ScraperStrategy {
-    const fetchPosts = this.fetchPosts.bind(this);
-    const enrichPost = this.enrichPost.bind(this);
-    return new ScraperStrategyWithBreakIfPostExists(fetchPosts, enrichPost);
-  }
-
-  protected createScraperStrategyWithContinueIfPostExists(): ScraperStrategy {
-    const fetchPosts = this.fetchPosts.bind(this);
-    const enrichPost = this.enrichPost.bind(this);
-    return new ScraperStrategyWithContinueIfPostExists(fetchPosts, enrichPost);
   }
 
   protected fromHtmlPage(url: string): HtmlPageHelper {

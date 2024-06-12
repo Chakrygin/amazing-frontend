@@ -1,3 +1,4 @@
-export * from './ScraperStrategy';
-export * from './ScraperStrategyWithBreakIfPostExists';
-export * from './ScraperStrategyWithContinueIfPostExists';
+export * from './BreakIfPostExistsStrategy';
+export * from './ContinueIfPostExistsStrategy';
+export * from './Strategy';
+export * from './StrategyBase';

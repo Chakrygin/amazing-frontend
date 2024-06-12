@@ -1,12 +1,13 @@
 import * as core from '@actions/core';
 
-import { Post } from "@core/models";
-import { ScraperStrategy } from './ScraperStrategy';
-import { Sender } from '@core/senders';
-import { Storage } from '@core/storages/Storage';
+import { Strategy } from './Strategy';
 
-export abstract class ScraperStrategyBase implements ScraperStrategy {
-  abstract scrape(storage: Storage, sender: Sender): Promise<void>;
+import { Post } from '../../models';
+import { Sender } from '../../senders';
+import { Storage } from '../../storages';
+
+export abstract class StrategyBase implements Strategy {
+  abstract scrape(sender: Sender, storage: Storage): Promise<void>;
 
   protected printPostHead(post: Post) {
     core.info(`Post title: ${post.title}`);
@@ -19,7 +20,7 @@ export abstract class ScraperStrategyBase implements ScraperStrategy {
       .map(line => '  ' + line)
       .join('\n');
 
-    core.startGroup('Post :')
+    core.startGroup('Post');
     core.info(json);
     core.endGroup();
   }

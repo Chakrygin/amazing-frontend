@@ -1,20 +1,21 @@
 import * as core from '@actions/core';
 
-import { Post } from '@core/models';
-import { ScraperStrategyBase } from './ScraperStrategyBase';
-import { Sender } from '@core/senders';
-import { Storage } from '@core/storages';
+import { Strategy } from './Strategy';
 
-export class ScraperStrategyWithContinueIfPostExists extends ScraperStrategyBase {
+import { printPost, printPostJson } from './utils';
+
+import { Post } from '../../models';
+import { Sender } from '../../senders';
+import { Storage } from '../../storages';
+
+export class ContinueIfPostExistsStrategy implements Strategy {
   constructor(
     private readonly fetchPosts: () => AsyncGenerator<Post>,
-    private readonly enrichPost: (post: Post) => Promise<Post | null>) {
-    super();
-  }
+    private readonly enrichPost: (post: Post) => Promise<Post | null>) { }
 
-  async scrape(storage: Storage, sender: Sender): Promise<void> {
+  async scrape(sender: Sender, storage: Storage): Promise<void> {
     for await (const fetchedPost of this.fetchPosts()) {
-      this.printPostHead(fetchedPost);
+      printPost(fetchedPost);
 
       if (storage.has(fetchedPost.href)) {
         core.info('The post already exists in the storage. Continue scraping.');
@@ -28,7 +29,7 @@ export class ScraperStrategyWithContinueIfPostExists extends ScraperStrategyBase
         continue;
       }
 
-      this.printPostBody(enrichedPost);
+      printPostJson(enrichedPost);
 
       core.info('Sending the post...');
       await sender.send(enrichedPost);

@@ -14,6 +14,7 @@ https://habr.com/ru/articles/1047354/
 https://habr.com/ru/articles/1048872/
 https://habr.com/ru/articles/1049048/
 https://habr.com/ru/articles/1049878/
+https://habr.com/ru/articles/1049908/
 https://habr.com/ru/articles/1050358/
 https://habr.com/ru/articles/1050728/
 https://habr.com/ru/articles/1051828/
@@ -28,6 +29,7 @@ https://habr.com/ru/companies/netologyru/articles/1042346/
 https://habr.com/ru/companies/pvs-studio/articles/1044834/
 https://habr.com/ru/companies/ruvds/articles/1047434/
 https://habr.com/ru/companies/ruvds/articles/1051336/
+https://habr.com/ru/companies/ruvds/articles/1051796/
 https://habr.com/ru/companies/sberbank/articles/1045380/
 https://habr.com/ru/companies/timeweb/articles/1037990/
 https://habr.com/ru/companies/timeweb/articles/1041940/
